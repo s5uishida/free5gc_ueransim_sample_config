@@ -949,7 +949,7 @@ https://github.com/aligungr/UERANSIM/wiki/Usage
 <h3 id="ping_1">Case for going through DN 60.61.0.0/16</h3>
 
 Execute `tcpdump` on VM2 (U-Plane1) and check that the packet goes through `if=upfgtp`.
-- `ping google.com` on VM4 (UE1)
+- `ping google.com` on VM5 (UE1)
 ```
 # ping google.com -I uesimtun0 -n
 PING google.com (172.217.26.110) from 60.61.0.1 uesimtun0: 56(84) bytes of data.
@@ -972,7 +972,7 @@ listening on upfgtp, link-type RAW (Raw IP), capture size 262144 bytes
 
 You could specify the IP address assigned to the TUNnel interface to run almost any applications as in the following example using `nr-binder` tool.
 
-- Run `curl google.com` on VM4 (UE1)
+- Run `curl google.com` on VM5 (UE1)
 ```
 # sh nr-binder 60.61.0.1 curl google.com
 <HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
