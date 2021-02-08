@@ -96,7 +96,7 @@ Please refer to the following for building free5GC and UERANSIM respectively.
 
 <h3 id="changes_cp">Changes in configuration files of free5GC 5GC C-Plane</h3>
 
-The following combination of DNN and S-NSSAI parameters can be used in the logic that selects UPF as the connection destination by PFCP.
+The combination of DNN and S-NSSAI parameters can be used in the logic that selects UPF as the connection destination by PFCP.
 
 - DNN
 - S-NSSAI
