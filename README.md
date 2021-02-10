@@ -642,6 +642,10 @@ Note. Install MongoDB with package manager on free5GC 5GC C-Plane machine.
 ```
 It is not necessary to install MongoDB on free5GC 5GC U-Plane machines.
 
+**Note. Please follow the procedure below to install WebConsole. There is a bug in WebConsole v1.0.0, so please checkout to v1.0.1 (or later) before building.**
+
+https://github.com/free5gc/free5gc/wiki/Installation#d-install-webconsole
+
 <h2 id="run">Run free5GC 5GC and UERANSIM UE / RAN</h2>
 
 First run the 5GC, then UERANSIM (UE & RAN implementation).
