@@ -71,9 +71,9 @@ Subscriber Information (other information is the same) is as follows.
 
 I registered these information with the free5GC WebUI.
 
-**Note. There is a problem with the subscriber information registered using WebConsole of free5GC v3.0.5. Please get the following modified version and build it.**
+**Note. Please follow the procedure below to install WebConsole. There is a bug in WebConsole v1.0.0, so please checkout to v1.0.1 (or later) before building.**
 
-https://github.com/free5gc/webconsole/releases/tag/v1.0.1
+https://github.com/free5gc/free5gc/wiki/Installation#d-install-webconsole
 
 In addition, [3GPP TS 35.208](https://www.3gpp.org/DynaReport/35208.htm) "4.3 Test Sets" is published by 3GPP as test data for the 3GPP authentication and key generation functions (MILENAGE).
 
