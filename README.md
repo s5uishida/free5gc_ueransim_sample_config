@@ -649,6 +649,22 @@ It is not necessary to install MongoDB on free5GC 5GC U-Plane machines.
 
 https://github.com/free5gc/free5gc/wiki/Installation#d-install-webconsole
 
+**Alternatively, I recommend that you create and run the following script to checkout all NFs and WebConsole of free5GC to the latest `main` branch before building.**
+```
+#!/usr/bin/env bash
+
+NF_LIST="nrf amf smf udr pcf udm nssf ausf upf n3iwf"
+
+for NF in ${NF_LIST}; do
+    cd NFs/${NF}
+    git checkout main
+    cd ../..
+done
+
+cd webconsole
+git checkout main
+```
+
 <h2 id="run">Run free5GC 5GC and UERANSIM UE / RAN</h2>
 
 First run the 5GC, then UERANSIM (UE & RAN implementation).
