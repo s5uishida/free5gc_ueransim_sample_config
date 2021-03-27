@@ -99,7 +99,7 @@ Please refer to the following for building free5GC and UERANSIM respectively.
 - free5GC v3.0.5 or later (v3.0.5 + updated version at 2021.03.26) - https://github.com/free5gc/free5gc/wiki/Installation
 - UERANSIM v1.0.9 or later (v3.1.5 used) - https://github.com/aligungr/UERANSIM/wiki/Installation
 
-**Note. In the updated version of 2021.03.26, the format of the free5GC configuration files have been partially changed. This article is written in the modified configuration files format, so please follow [this procedure](https://github.com/s5uishida/free5gc_ueransim_sample_config#build-free5gc-and-ueransim) to change to the latest `main` branch before building free5GC.**
+**Note. In the updated version of 2021.03.26, the format of the free5GC configuration files has been partially changed. This article is written in the modified configuration files format, so please follow [this procedure](https://github.com/s5uishida/free5gc_ueransim_sample_config#build-free5gc-and-ueransim) to change to the latest `main` branch before building free5GC.**
 
 <h3 id="changes_cp">Changes in configuration files of free5GC 5GC C-Plane</h3>
 
