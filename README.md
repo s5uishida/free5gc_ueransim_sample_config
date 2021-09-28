@@ -48,8 +48,8 @@ The built simulation environment is as follows.
 <img src="./images/network-overview.png" title="./images/network-overview.png" width=1000px></img>
 
 The 5GC / UE / RAN used are as follows.
-- 5GC - free5GC v3.0.6 or later (v3.0.6 used) - https://github.com/free5gc/free5gc
-- UE / RAN - UERANSIM v3.2.3 or later (v3.2.3 used) - https://github.com/aligungr/UERANSIM
+- 5GC - free5GC v3.0.6 - https://github.com/free5gc/free5gc
+- UE / RAN - UERANSIM v3.2.3 - https://github.com/aligungr/UERANSIM
 
 Each VMs are as follows.  
 | VM # | SW & Role | IP address | OS | Memory (Min) | HDD (Min) |
@@ -90,8 +90,8 @@ In addition, I have not confirmed the communication performance.
 <h2 id="changes">Changes in configuration files of free5GC 5GC and UERANSIM UE / RAN</h2>
 
 Please refer to the following for building free5GC and UERANSIM respectively.
-- free5GC v3.0.6 or later (v3.0.6 used) - https://github.com/free5gc/free5gc/wiki/Installation
-- UERANSIM v3.2.3 or later (v3.2.3 used) - https://github.com/aligungr/UERANSIM/wiki/Installation
+- free5GC v3.0.6 - https://github.com/free5gc/free5gc/wiki/Installation
+- UERANSIM v3.2.3 - https://github.com/aligungr/UERANSIM/wiki/Installation
 
 <h3 id="changes_cp">Changes in configuration files of free5GC 5GC C-Plane</h3>
 
@@ -645,8 +645,8 @@ Next, configure NAPT.
 <h2 id="build">Build free5GC and UERANSIM</h2>
 
 Please refer to the following for building free5GC and UERANSIM respectively.
-- free5GC v3.0.6 or later (v3.0.6 used) - https://github.com/free5gc/free5gc/wiki/Installation
-- UERANSIM v3.2.3 or later (v3.2.3 used) - https://github.com/aligungr/UERANSIM/wiki/Installation
+- free5GC v3.0.6 - https://github.com/free5gc/free5gc/wiki/Installation
+- UERANSIM v3.2.3 - https://github.com/aligungr/UERANSIM/wiki/Installation
 
 Note. Install MongoDB with package manager on free5GC 5GC C-Plane machine.
 [MongoDB Compass](https://www.mongodb.com/products/compass) is a convenient tool to look at the MongoDB database.
