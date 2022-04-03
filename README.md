@@ -30,7 +30,7 @@ This briefly describes the overall and configuration files.
     - [Start gNB](#start_gnb)
     - [Start UE (UE1)](#start_ue)
 - [Ping google.com](#ping)
-  - [Case for going through DN 60.61.0.0/16](#ping_1)
+  - [Case for going through DN 10.61.0.0/16](#ping_1)
 - [Changelog (summary)](#changelog)
 
 ---
