@@ -48,7 +48,7 @@ The built simulation environment is as follows.
 <img src="./images/network-overview.png" title="./images/network-overview.png" width=1000px></img>
 
 The 5GC / UE / RAN used are as follows.
-- 5GC - free5GC v3.1.0 - https://github.com/free5gc/free5gc
+- 5GC - free5GC v3.2.1 - https://github.com/free5gc/free5gc
 - UE / RAN - UERANSIM v3.2.6 - https://github.com/aligungr/UERANSIM
 
 Each VMs are as follows.  
@@ -89,7 +89,7 @@ In addition, I have not confirmed the communication performance.
 <h2 id="changes">Changes in configuration files of free5GC 5GC and UERANSIM UE / RAN</h2>
 
 Please refer to the following for building free5GC and UERANSIM respectively.
-- free5GC v3.1.0 - https://github.com/free5gc/free5gc/wiki/Installation
+- free5GC v3.2.1 - https://github.com/free5gc/free5gc/wiki/Installation
 - UERANSIM v3.2.6 - https://github.com/aligungr/UERANSIM/wiki/Installation
 
 <h3 id="changes_cp">Changes in configuration files of free5GC 5GC C-Plane</h3>
@@ -296,64 +296,80 @@ For the sake of simplicity, This time, only DNN will be changed. S-NSSAI of all 
 
 <h3 id="changes_up1">Changes in configuration files of free5GC 5GC U-Plane1</h3>
 
-- `free5gc/NFs/upf/build/config/upfcfg.yaml`
+- `free5gc/config/upfcfg.yaml`
 ```diff
---- upfcfg.yaml.orig    2022-04-01 20:34:11.333681494 +0900
-+++ upfcfg.yaml 2022-04-01 21:00:59.310114539 +0900
-@@ -15,12 +15,12 @@
+--- upfcfg.yaml.orig    2022-08-11 14:42:32.545805826 +0900
++++ upfcfg.yaml 2022-08-11 14:53:00.703425741 +0900
+@@ -3,8 +3,8 @@
  
-   # The IP list of the N4 interface on this UPF (Can't set to 0.0.0.0)
-   pfcp:
--    - addr: 127.0.0.8
-+    - addr: 192.168.0.142
+ # The listen IP and nodeID of the N4 interface on this UPF (Can't set to 0.0.0.0)
+ pfcp:
+-  addr: 127.0.0.8   # IP addr for listening
+-  nodeID: 127.0.0.8 # External IP or FQDN can be reached
++  addr: 192.168.0.142   # IP addr for listening
++  nodeID: 192.168.0.142 # External IP or FQDN can be reached
+   retransTimeout: 1s # retransmission timeout
+   maxRetrans: 3 # the max number of retransmission
  
+@@ -13,7 +13,7 @@
    # The IP list of the N3/N9 interfaces on this UPF
    # If there are multiple connection, set addr to 0.0.0.0 or list all the addresses
-   gtpu:
+   ifList:
 -    - addr: 127.0.0.8
 +    - addr: 192.168.0.142
-     # [optional] gtpu.name
-     # - name: upf.5gc.nctu.me
-     # [optional] gtpu.ifname
-@@ -32,3 +32,5 @@
-       cidr: 10.60.0.0/16 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
-       # [optional] dnn_list[*].natifname
-       # natifname: eth0
-+    - dnn: internet2
-+      cidr: 10.61.0.0/16
+       type: N3
+       # name: upf.5gc.nctu.me
+       # ifname: gtpif
+@@ -21,8 +21,10 @@
+ # The DNN list supported by UPF
+ dnnList:
+   - dnn: internet # Data Network Name
+-    cidr: 10.60.0.0/24 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
++    cidr: 10.60.0.0/16 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
+     # natifname: eth0
++  - dnn: internet2
++    cidr: 10.61.0.0/16
+ 
+ logger: # log output setting
+   enable: true # true or false
 ```
 
 <h3 id="changes_up2">Changes in configuration files of free5GC 5GC U-Plane2</h3>
 
-- `free5gc/NFs/upf/build/config/upfcfg.yaml`
+- `free5gc/config/upfcfg.yaml`
 ```diff
---- upfcfg.yaml.orig    2022-04-01 20:36:05.833367506 +0900
-+++ upfcfg.yaml 2022-04-01 21:03:15.109770860 +0900
-@@ -15,12 +15,12 @@
+--- upfcfg.yaml.orig    2022-08-11 14:44:10.418739050 +0900
++++ upfcfg.yaml 2022-08-11 14:57:26.340226675 +0900
+@@ -3,8 +3,8 @@
  
-   # The IP list of the N4 interface on this UPF (Can't set to 0.0.0.0)
-   pfcp:
--    - addr: 127.0.0.8
-+    - addr: 192.168.0.143
+ # The listen IP and nodeID of the N4 interface on this UPF (Can't set to 0.0.0.0)
+ pfcp:
+-  addr: 127.0.0.8   # IP addr for listening
+-  nodeID: 127.0.0.8 # External IP or FQDN can be reached
++  addr: 192.168.0.143   # IP addr for listening
++  nodeID: 192.168.0.143 # External IP or FQDN can be reached
+   retransTimeout: 1s # retransmission timeout
+   maxRetrans: 3 # the max number of retransmission
  
+@@ -13,15 +13,15 @@
    # The IP list of the N3/N9 interfaces on this UPF
    # If there are multiple connection, set addr to 0.0.0.0 or list all the addresses
-   gtpu:
+   ifList:
 -    - addr: 127.0.0.8
 +    - addr: 192.168.0.143
-     # [optional] gtpu.name
-     # - name: upf.5gc.nctu.me
-     # [optional] gtpu.ifname
-@@ -28,7 +28,7 @@
+       type: N3
+       # name: upf.5gc.nctu.me
+       # ifname: gtpif
  
-   # The DNN list supported by UPF
-   dnn_list:
--    - dnn: internet # Data Network Name
--      cidr: 10.60.0.0/16 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
-+    - dnn: ims # Data Network Name
-+      cidr: 10.62.0.0/16 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
-       # [optional] dnn_list[*].natifname
-       # natifname: eth0
+ # The DNN list supported by UPF
+ dnnList:
+-  - dnn: internet # Data Network Name
+-    cidr: 10.60.0.0/24 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
++  - dnn: ims # Data Network Name
++    cidr: 10.62.0.0/16 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
+     # natifname: eth0
+ 
+ logger: # log output setting
 ```
 
 <h3 id="changes_ueransim">Changes in configuration files of UERANSIM UE / RAN</h3>
@@ -640,7 +656,7 @@ Next, configure NAPT.
 <h2 id="build">Build free5GC and UERANSIM</h2>
 
 Please refer to the following for building free5GC and UERANSIM respectively.
-- free5GC v3.1.0 - https://github.com/free5gc/free5gc/wiki/Installation
+- free5GC v3.2.1 - https://github.com/free5gc/free5gc/wiki/Installation
 - UERANSIM v3.2.6 - https://github.com/aligungr/UERANSIM/wiki/Installation
 
 Note. Install MongoDB with package manager on free5GC 5GC C-Plane machine.
@@ -682,13 +698,13 @@ First, run free5GC 5GC U-Planes. Please see [here](https://github.com/free5gc/fr
 
 - free5GC 5GC U-Plane1
 ```
-# cd free5gc/NFs/upf/build
-# bin/free5gc-upfd
+# cd free5gc
+# bin/upf
 ```
 - free5GC 5GC U-Plane2
 ```
-# cd free5gc/NFs/upf/build
-# bin/free5gc-upfd
+# cd free5gc
+# bin/upf
 ```
 
 <h3 id="run_cp">Run free5GC 5GC C-Plane</h3>
@@ -738,19 +754,19 @@ Start gNB as follows.
 ```
 # ./nr-gnb -c ../config/free5gc-gnb.yaml
 UERANSIM v3.2.6
-[2022-04-03 20:28:44.358] [sctp] [info] Trying to establish SCTP connection... (192.168.0.141:38412)
-[2022-04-03 20:28:44.361] [sctp] [info] SCTP connection established (192.168.0.141:38412)
-[2022-04-03 20:28:44.361] [sctp] [debug] SCTP association setup ascId[6]
-[2022-04-03 20:28:44.362] [ngap] [debug] Sending NG Setup Request
-[2022-04-03 20:28:44.364] [ngap] [debug] NG Setup Response received
-[2022-04-03 20:28:44.364] [ngap] [info] NG Setup procedure is successful
+[2022-08-11 15:31:29.042] [sctp] [info] Trying to establish SCTP connection... (192.168.0.141:38412)
+[2022-08-11 15:31:29.044] [sctp] [info] SCTP connection established (192.168.0.141:38412)
+[2022-08-11 15:31:29.045] [sctp] [debug] SCTP association setup ascId[4]
+[2022-08-11 15:31:29.045] [ngap] [debug] Sending NG Setup Request
+[2022-08-11 15:31:29.047] [ngap] [debug] NG Setup Response received
+[2022-08-11 15:31:29.047] [ngap] [info] NG Setup procedure is successful
 ```
 The free5GC C-Plane log when executed is as follows.
 ```
-2022-04-03T20:28:44+09:00 [INFO][AMF][NGAP] [AMF] SCTP Accept from: 192.168.0.131:54644
-2022-04-03T20:28:44+09:00 [INFO][AMF][NGAP] Create a new NG connection for: 192.168.0.131:54644
-2022-04-03T20:28:44+09:00 [INFO][AMF][NGAP][192.168.0.131:54644] Handle NG Setup request
-2022-04-03T20:28:44+09:00 [INFO][AMF][NGAP][192.168.0.131:54644] Send NG-Setup response
+2022-08-11T15:31:29+09:00 [INFO][AMF][NGAP] [AMF] SCTP Accept from: 192.168.0.131:58560
+2022-08-11T15:31:29+09:00 [INFO][AMF][NGAP] Create a new NG connection for: 192.168.0.131:58560
+2022-08-11T15:31:29+09:00 [INFO][AMF][NGAP][192.168.0.131:58560] Handle NG Setup request
+2022-08-11T15:31:29+09:00 [INFO][AMF][NGAP][192.168.0.131:58560] Send NG-Setup response
 ```
 
 <h4 id="start_ue">Start UE (UE1)</h4>
@@ -759,206 +775,210 @@ Start UE (UE1) as follows. This will register the UE with 5GC and establish a PD
 ```
 # ./nr-ue -c ../config/free5gc-ue1.yaml 
 UERANSIM v3.2.6
-[2022-04-03 20:30:27.993] [nas] [info] UE switches to state [MM-DEREGISTERED/PLMN-SEARCH]
-[2022-04-03 20:30:27.993] [rrc] [debug] New signal detected for cell[1], total [1] cells in coverage
-[2022-04-03 20:30:27.994] [nas] [info] Selected plmn[001/01]
-[2022-04-03 20:30:27.994] [rrc] [info] Selected cell plmn[001/01] tac[1] category[SUITABLE]
-[2022-04-03 20:30:27.995] [nas] [info] UE switches to state [MM-DEREGISTERED/PS]
-[2022-04-03 20:30:27.995] [nas] [info] UE switches to state [MM-DEREGISTERED/NORMAL-SERVICE]
-[2022-04-03 20:30:27.995] [nas] [debug] Initial registration required due to [MM-DEREG-NORMAL-SERVICE]
-[2022-04-03 20:30:27.996] [nas] [debug] UAC access attempt is allowed for identity[0], category[MO_sig]
-[2022-04-03 20:30:27.996] [nas] [debug] Sending Initial Registration
-[2022-04-03 20:30:27.996] [nas] [info] UE switches to state [MM-REGISTER-INITIATED]
-[2022-04-03 20:30:27.997] [rrc] [debug] Sending RRC Setup Request
-[2022-04-03 20:30:27.998] [rrc] [info] RRC connection established
-[2022-04-03 20:30:27.998] [rrc] [info] UE switches to state [RRC-CONNECTED]
-[2022-04-03 20:30:27.999] [nas] [info] UE switches to state [CM-CONNECTED]
-[2022-04-03 20:30:28.033] [nas] [debug] Authentication Request received
-[2022-04-03 20:30:28.039] [nas] [debug] Security Mode Command received
-[2022-04-03 20:30:28.039] [nas] [debug] Selected integrity[2] ciphering[0]
-[2022-04-03 20:30:28.068] [nas] [debug] Registration accept received
-[2022-04-03 20:30:28.068] [nas] [info] UE switches to state [MM-REGISTERED/NORMAL-SERVICE]
-[2022-04-03 20:30:28.069] [nas] [debug] Sending Registration Complete
-[2022-04-03 20:30:28.069] [nas] [info] Initial Registration is successful
-[2022-04-03 20:30:28.069] [nas] [debug] Sending PDU Session Establishment Request
-[2022-04-03 20:30:28.069] [nas] [debug] UAC access attempt is allowed for identity[0], category[MO_sig]
-[2022-04-03 20:30:28.321] [nas] [debug] PDU Session Establishment Accept received
-[2022-04-03 20:30:28.325] [nas] [info] PDU Session establishment is successful PSI[1]
-[2022-04-03 20:30:28.345] [app] [info] Connection setup for PDU session[1] is successful, TUN interface[uesimtun0, 10.61.0.1] is up.
+[2022-08-11 15:32:13.852] [nas] [info] UE switches to state [MM-DEREGISTERED/PLMN-SEARCH]
+[2022-08-11 15:32:13.853] [rrc] [debug] New signal detected for cell[1], total [1] cells in coverage
+[2022-08-11 15:32:13.853] [nas] [info] Selected plmn[001/01]
+[2022-08-11 15:32:13.854] [rrc] [info] Selected cell plmn[001/01] tac[1] category[SUITABLE]
+[2022-08-11 15:32:13.854] [nas] [info] UE switches to state [MM-DEREGISTERED/PS]
+[2022-08-11 15:32:13.855] [nas] [info] UE switches to state [MM-DEREGISTERED/NORMAL-SERVICE]
+[2022-08-11 15:32:13.855] [nas] [debug] Initial registration required due to [MM-DEREG-NORMAL-SERVICE]
+[2022-08-11 15:32:13.856] [nas] [debug] UAC access attempt is allowed for identity[0], category[MO_sig]
+[2022-08-11 15:32:13.856] [nas] [debug] Sending Initial Registration
+[2022-08-11 15:32:13.856] [rrc] [debug] Sending RRC Setup Request
+[2022-08-11 15:32:13.857] [nas] [info] UE switches to state [MM-REGISTER-INITIATED]
+[2022-08-11 15:32:13.858] [rrc] [info] RRC connection established
+[2022-08-11 15:32:13.858] [rrc] [info] UE switches to state [RRC-CONNECTED]
+[2022-08-11 15:32:13.858] [nas] [info] UE switches to state [CM-CONNECTED]
+[2022-08-11 15:32:13.889] [nas] [debug] Authentication Request received
+[2022-08-11 15:32:13.897] [nas] [debug] Security Mode Command received
+[2022-08-11 15:32:13.897] [nas] [debug] Selected integrity[2] ciphering[0]
+[2022-08-11 15:32:13.941] [nas] [debug] Registration accept received
+[2022-08-11 15:32:13.941] [nas] [info] UE switches to state [MM-REGISTERED/NORMAL-SERVICE]
+[2022-08-11 15:32:13.941] [nas] [debug] Sending Registration Complete
+[2022-08-11 15:32:13.941] [nas] [info] Initial Registration is successful
+[2022-08-11 15:32:13.942] [nas] [debug] Sending PDU Session Establishment Request
+[2022-08-11 15:32:13.942] [nas] [debug] UAC access attempt is allowed for identity[0], category[MO_sig]
+[2022-08-11 15:32:14.197] [nas] [debug] PDU Session Establishment Accept received
+[2022-08-11 15:32:14.202] [nas] [info] PDU Session establishment is successful PSI[1]
+[2022-08-11 15:32:14.224] [app] [info] Connection setup for PDU session[1] is successful, TUN interface[uesimtun0, 10.61.0.1] is up.
 ```
 The free5GC C-Plane log when executed is as follows.
 ```
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644] Handle Initial UE Message
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [Deregistered] to [Deregistered]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2] Handle Registration Request
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[Start Authentication], transition from [Deregistered] to [Authentication]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2] Authentication procedure
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&target-nf-type=AUSF |
-2022-04-03T20:30:28+09:00 [INFO][AUSF][UeAuthPost] HandleUeAuthPostRequest
-2022-04-03T20:30:28+09:00 [INFO][AUSF][UeAuthPost] Serving network authorized
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AUSF&service-names=nudm-ueau&target-nf-type=UDM |
-2022-04-03T20:30:28+09:00 [INFO][UDM][UEAU] Handle GenerateAuthDataRequest
-2022-04-03T20:30:28+09:00 [INFO][UDM][Suci] suciPart: [suci 0 001 01 0000 0 0 0000000001]
-2022-04-03T20:30:28+09:00 [INFO][UDM][Suci] scheme 0
-2022-04-03T20:30:28+09:00 [INFO][UDM][Suci] SUPI type is IMSI
+2022-08-11T15:32:13+09:00 [INFO][AMF][NGAP][192.168.0.131:58560] Handle Initial UE Message
+2022-08-11T15:32:13+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [Deregistered] to [Deregistered]
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1] Handle Registration Request
+2022-08-11T15:32:13+09:00 [INFO][LIB][FSM] Handle event[Start Authentication], transition from [Deregistered] to [Authentication]
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1] Authentication procedure
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&target-nf-type=AUSF |
+2022-08-11T15:32:13+09:00 [INFO][AUSF][UeAuthPost] HandleUeAuthPostRequest
+2022-08-11T15:32:13+09:00 [INFO][AUSF][UeAuthPost] Serving network authorized
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AUSF&service-names=nudm-ueau&target-nf-type=UDM |
+2022-08-11T15:32:13+09:00 [INFO][UDM][UEAU] Handle GenerateAuthDataRequest
+2022-08-11T15:32:13+09:00 [INFO][UDM][Suci] suciPart: [suci 0 001 01 0000 0 0 0000000001]
+2022-08-11T15:32:13+09:00 [INFO][UDM][Suci] scheme 0
+2022-08-11T15:32:13+09:00 [INFO][UDM][Suci] SUPI type is IMSI
 http://127.0.0.10:8000
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=UDM&target-nf-type=UDR |
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle QueryAuthSubsData
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/authentication-data/authentication-subscription |
-2022-04-03T20:30:28+09:00 [ERRO][UDM][UEAU] opStr length is  0
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle ModifyAuthentication
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 204 |       127.0.0.1 | PATCH   | /nudr-dr/v1/subscription-data/imsi-001010000000001/authentication-data/authentication-subscription |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | POST    | /nudm-ueau/v1/suci-0-001-01-0000-0-0-0000000001/security-information/generate-auth-data |
-2022-04-03T20:30:28+09:00 [INFO][AUSF][UeAuthPost] Add SuciSupiPair (suci-0-001-01-0000-0-0-0000000001, imsi-001010000000001) to map.
-2022-04-03T20:30:28+09:00 [INFO][AUSF][UeAuthPost] Use 5G AKA auth method
-2022-04-03T20:30:28+09:00 [INFO][AUSF][5gAkaAuth] XresStar = 6338353637666131633163303361623766353636376431353266313733376439
-2022-04-03T20:30:28+09:00 [INFO][AUSF][GIN] | 201 |       127.0.0.1 | POST    | /nausf-auth/v1/ue-authentications |
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2] Send Authentication Request
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Send Downlink Nas Transport
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Uplink NAS Transport (RAN UE NGAP ID: 2)
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [Authentication] to [Authentication]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2] Handle Authentication Response
-2022-04-03T20:30:28+09:00 [INFO][AUSF][5gAkaAuth] Auth5gAkaComfirmRequest
-2022-04-03T20:30:28+09:00 [INFO][AUSF][5gAkaAuth] res*: 6338353637666131633163303361623766353636376431353266313733376439
-Xres*: 6338353637666131633163303361623766353636376431353266313733376439
-2022-04-03T20:30:28+09:00 [INFO][AUSF][5gAkaAuth] 5G AKA confirmation succeeded
-2022-04-03T20:30:28+09:00 [INFO][UDM][UEAU] Handle ConfirmAuthDataRequest
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle CreateAuthenticationStatus
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 204 |       127.0.0.1 | PUT     | /nudr-dr/v1/subscription-data/imsi-001010000000001/authentication-data/authentication-status |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 201 |       127.0.0.1 | POST    | /nudm-ueau/v1/imsi-001010000000001/auth-events |
-2022-04-03T20:30:28+09:00 [INFO][AUSF][GIN] | 200 |       127.0.0.1 | PUT     | /nausf-auth/v1/ue-authentications/suci-0-001-01-0000-0-0-0000000001/5g-aka-confirmation |
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[Authentication Success], transition from [Authentication] to [SecurityMode]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Send Security Mode Command
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Send Downlink Nas Transport
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Uplink NAS Transport (RAN UE NGAP ID: 2)
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [SecurityMode] to [SecurityMode]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Handle Security Mode Complete
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[SecurityMode Success], transition from [SecurityMode] to [ContextSetup]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Handle InitialRegistration
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&supi=imsi-001010000000001&target-nf-type=UDM |
-2022-04-03T20:30:28+09:00 [INFO][UDM][SDM] Handle GetNssai
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle QueryAmData
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/am-data?supported-features= |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/nssai?plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] RequestedNssai - ServingSnssai: &{Sst:1 Sd:010203}, HomeSnssai: <nil>
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&supi=imsi-001010000000001&target-nf-type=UDM |
-2022-04-03T20:30:28+09:00 [INFO][UDM][UECM] Handle RegistrationAmf3gppAccess
-2022-04-03T20:30:28+09:00 [INFO][UDM][UECM] UEID: imsi-001010000000001
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle CreateAmfContext3gpp
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 204 |       127.0.0.1 | PUT     | /nudr-dr/v1/subscription-data/imsi-001010000000001/context-data/amf-3gpp-access |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 201 |       127.0.0.1 | PUT     | /nudm-uecm/v1/imsi-001010000000001/registrations/amf-3gpp-access |
-2022-04-03T20:30:28+09:00 [INFO][UDM][SDM] Handle GetAmData
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle QueryAmData
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/am-data?supported-features=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/am-data?plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][UDM][SDM] Handle GetSmfSelectData
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle QuerySmfSelectData
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/smf-selection-subscription-data?supported-features= |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/smf-select-data?plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][UDM][SDM] Handle GetUeContextInSmfData
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle QuerySmfRegList
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/context-data/smf-registrations?supported-features= |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/ue-context-in-smf-data |
-2022-04-03T20:30:28+09:00 [INFO][UDM][SDM] Handle Subscribe
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle CreateSdmSubscriptions
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 201 |       127.0.0.1 | POST    | /nudr-dr/v1/subscription-data/imsi-001010000000001/context-data/sdm-subscriptions |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 201 |       127.0.0.1 | POST    | /nudm-sdm/v1/imsi-001010000000001/sdm-subscriptions |
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?preferred-locality=area1&requester-nf-type=AMF&supi=imsi-001010000000001&target-nf-type=PCF |
-2022-04-03T20:30:28+09:00 [INFO][PCF][Ampolicy] Handle AM Policy Create Request
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=PCF&target-nf-type=UDR |
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle PolicyDataUesUeIdAmDataGet
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/policy-data/ues/imsi-001010000000001/am-data |
-2022-04-03T20:30:28+09:00 [INFO][PCF][GIN] | 201 |       127.0.0.1 | POST    | /npcf-am-policy-control/v1/policies |
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Send Registration Accept
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Send Initial Context Setup Request
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Handle Initial Context Setup Response
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Uplink NAS Transport (RAN UE NGAP ID: 2)
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [ContextSetup] to [ContextSetup]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Handle Registration Complete
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[ContextSetup Success], transition from [ContextSetup] to [Registered]
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Uplink NAS Transport (RAN UE NGAP ID: 2)
-2022-04-03T20:30:28+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [Registered] to [Registered]
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Handle UL NAS Transport
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Transport 5GSM Message to SMF
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] Select SMF [snssai: {Sst:1 Sd:010203}, dnn: internet2]
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&target-nf-type=NSSF |
-2022-04-03T20:30:28+09:00 [INFO][NSSF][NsSelect] Handle NSSelectionGet
-2022-04-03T20:30:28+09:00 [INFO][NSSF][GIN] | 200 |       127.0.0.1 | GET     | /nnssf-nsselection/v1/network-slice-information?nf-id=3a903829-c6a7-4361-ac5b-42b8e87b8aa5&nf-type=AMF&slice-info-request-for-pdu-session=%7B%22sNssai%22%3A%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D%2C%22roamingIndication%22%3A%22NON_ROAMING%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?dnn=internet2&preferred-locality=area1&requester-nf-type=AMF&service-names=nsmf-pdusession&snssais=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D&target-nf-type=SMF&target-plmn-list=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] Receive Create SM Context Request
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] In HandlePDUSessionSMContextCreate
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=SMF&target-nf-type=UDM |
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] Send NF Discovery Serving UDM Successfully
-2022-04-03T20:30:28+09:00 [INFO][SMF][CTX] Allocated UE IP address: 10.61.0.1
-2022-04-03T20:30:28+09:00 [INFO][SMF][CTX] Selected UPF: UPF1
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] UE[imsi-001010000000001] PDUSessionID[1] IP[10.61.0.1]
-2022-04-03T20:30:28+09:00 [INFO][UDM][SDM] Handle GetSmData
-2022-04-03T20:30:28+09:00 [INFO][UDM][SDM] getSmDataProcedure: SUPI[imsi-001010000000001] PLMNID[00101] DNN[internet2] SNssai[{"sst":1,"sd":"010203"}]
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle QuerySmData
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/sm-data?single-nssai=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/sm-data?dnn=internet2&plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D&single-nssai=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][SMF][GSM] In HandlePDUSessionEstablishmentRequest
-2022-04-03T20:30:28+09:00 [INFO][NAS][Convert] ProtocolOrContainerList:  [0xc000431120 0xc000431160]
-2022-04-03T20:30:28+09:00 [INFO][SMF][GSM] Protocol Configuration Options
-2022-04-03T20:30:28+09:00 [INFO][SMF][GSM] &{[0xc000431120 0xc000431160]}
-2022-04-03T20:30:28+09:00 [INFO][SMF][GSM] Didn't Implement container type IPAddressAllocationViaNASSignallingUL
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] PCF Selection for SMContext SUPI[imsi-001010000000001] PDUSessionID[1]
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?preferred-locality=area1&requester-nf-type=SMF&target-nf-type=PCF |
-2022-04-03T20:30:28+09:00 [INFO][PCF][SMpolicy] Handle CreateSmPolicy
-2022-04-03T20:30:28+09:00 [INFO][UDR][DRepo] Handle PolicyDataUesUeIdSmDataGet
-2022-04-03T20:30:28+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/policy-data/ues/imsi-001010000000001/sm-data?dnn=internet2&snssai=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D |
-2022-04-03T20:30:28+09:00 [INFO][PCF][GIN] | 201 |       127.0.0.1 | POST    | /npcf-smpolicycontrol/v1/sm-policies |
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] SUPI[imsi-001010000000001] has no pre-config route
-2022-04-03T20:30:28+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
-2022-04-03T20:30:28+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=SMF&target-nf-instance-id=3a903829-c6a7-4361-ac5b-42b8e87b8aa5&target-nf-type=AMF |
-2022-04-03T20:30:28+09:00 [INFO][SMF][Consumer] SendNFDiscoveryServingAMF ok
-2022-04-03T20:30:28+09:00 [INFO][SMF][GIN] | 201 |       127.0.0.1 | POST    | /nsmf-pdusession/v1/sm-contexts |
-2022-04-03T20:30:28+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:2][SUPI:imsi-001010000000001] create smContext[pduSessionID: 1] Success
-2022-04-03T20:30:28+09:00 [INFO][SMF][PFCP] In HandlePfcpSessionEstablishmentResponse
-2022-04-03T20:30:28+09:00 [INFO][LIB][PFCP] Remove Request Transaction [5]
-2022-04-03T20:30:28+09:00 [INFO][AMF][Producer] Handle N1N2 Message Transfer Request
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Send PDU Session Resource Setup Request
-2022-04-03T20:30:28+09:00 [INFO][AMF][GIN] | 200 |       127.0.0.1 | POST    | /namf-comm/v1/ue-contexts/imsi-001010000000001/n1-n2-messages |
-2022-04-03T20:30:28+09:00 [INFO][AMF][NGAP][192.168.0.131:54644][AMF_UE_NGAP_ID:2] Handle PDU Session Resource Setup Response
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] Receive Update SM Context Request
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] In HandlePDUSessionSMContextUpdate
-2022-04-03T20:30:28+09:00 [INFO][SMF][PFCP] In HandlePfcpSessionModificationResponse
-2022-04-03T20:30:28+09:00 [INFO][SMF][PduSess] [SMF] PFCP Modification Resonse Accept
-2022-04-03T20:30:28+09:00 [INFO][SMF][PFCP] PFCP Session Modification Success[2]
-2022-04-03T20:30:28+09:00 [INFO][SMF][GIN] | 200 |       127.0.0.1 | POST    | /nsmf-pdusession/v1/sm-contexts/urn:uuid:61fc02f8-aafb-4ed2-b3d6-8d26c081efb3/modify |
-2022-04-03T20:30:28+09:00 [INFO][LIB][PFCP] Remove Request Transaction [6]
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=UDM&target-nf-type=UDR |
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle QueryAuthSubsData
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/authentication-data/authentication-subscription |
+2022-08-11T15:32:13+09:00 [ERRO][UDM][UEAU] opStr length is  0
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle ModifyAuthentication
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 204 |       127.0.0.1 | PATCH   | /nudr-dr/v1/subscription-data/imsi-001010000000001/authentication-data/authentication-subscription |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | POST    | /nudm-ueau/v1/suci-0-001-01-0000-0-0-0000000001/security-information/generate-auth-data |
+2022-08-11T15:32:13+09:00 [INFO][AUSF][UeAuthPost] Add SuciSupiPair (suci-0-001-01-0000-0-0-0000000001, imsi-001010000000001) to map.
+2022-08-11T15:32:13+09:00 [INFO][AUSF][UeAuthPost] Use 5G AKA auth method
+2022-08-11T15:32:13+09:00 [INFO][AUSF][5gAkaAuth] XresStar = 3530333665383435343538376134623066643438396366653232653238656637
+2022-08-11T15:32:13+09:00 [INFO][AUSF][GIN] | 201 |       127.0.0.1 | POST    | /nausf-auth/v1/ue-authentications |
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1] Send Authentication Request
+2022-08-11T15:32:13+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Send Downlink Nas Transport
+2022-08-11T15:32:13+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Uplink NAS Transport (RAN UE NGAP ID: 1)
+2022-08-11T15:32:13+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [Authentication] to [Authentication]
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1] Handle Authentication Response
+2022-08-11T15:32:13+09:00 [INFO][AUSF][5gAkaAuth] Auth5gAkaComfirmRequest
+2022-08-11T15:32:13+09:00 [INFO][AUSF][5gAkaAuth] res*: 3530333665383435343538376134623066643438396366653232653238656637
+Xres*: 3530333665383435343538376134623066643438396366653232653238656637
+2022-08-11T15:32:13+09:00 [INFO][AUSF][5gAkaAuth] 5G AKA confirmation succeeded
+2022-08-11T15:32:13+09:00 [INFO][UDM][UEAU] Handle ConfirmAuthDataRequest
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle CreateAuthenticationStatus
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 204 |       127.0.0.1 | PUT     | /nudr-dr/v1/subscription-data/imsi-001010000000001/authentication-data/authentication-status |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 201 |       127.0.0.1 | POST    | /nudm-ueau/v1/imsi-001010000000001/auth-events |
+2022-08-11T15:32:13+09:00 [INFO][AUSF][GIN] | 200 |       127.0.0.1 | PUT     | /nausf-auth/v1/ue-authentications/suci-0-001-01-0000-0-0-0000000001/5g-aka-confirmation |
+2022-08-11T15:32:13+09:00 [INFO][LIB][FSM] Handle event[Authentication Success], transition from [Authentication] to [SecurityMode]
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Send Security Mode Command
+2022-08-11T15:32:13+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Send Downlink Nas Transport
+2022-08-11T15:32:13+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Uplink NAS Transport (RAN UE NGAP ID: 1)
+2022-08-11T15:32:13+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [SecurityMode] to [SecurityMode]
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Handle Security Mode Complete
+2022-08-11T15:32:13+09:00 [INFO][LIB][FSM] Handle event[SecurityMode Success], transition from [SecurityMode] to [ContextSetup]
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Handle InitialRegistration
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&supi=imsi-001010000000001&target-nf-type=UDM |
+2022-08-11T15:32:13+09:00 [INFO][UDM][SDM] Handle GetNssai
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle QueryAmData
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/am-data?supported-features= |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/nssai?plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] RequestedNssai - ServingSnssai: &{Sst:1 Sd:010203}, HomeSnssai: <nil>
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&supi=imsi-001010000000001&target-nf-type=UDM |
+2022-08-11T15:32:13+09:00 [INFO][UDM][UECM] Handle RegistrationAmf3gppAccess
+2022-08-11T15:32:13+09:00 [INFO][UDM][UECM] UEID: imsi-001010000000001
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle CreateAmfContext3gpp
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 204 |       127.0.0.1 | PUT     | /nudr-dr/v1/subscription-data/imsi-001010000000001/context-data/amf-3gpp-access |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 201 |       127.0.0.1 | PUT     | /nudm-uecm/v1/imsi-001010000000001/registrations/amf-3gpp-access |
+2022-08-11T15:32:13+09:00 [INFO][UDM][SDM] Handle GetAmData
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle QueryAmData
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/am-data?supported-features=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/am-data?plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
+2022-08-11T15:32:13+09:00 [INFO][UDM][SDM] Handle GetSmfSelectData
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle QuerySmfSelectData
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/smf-selection-subscription-data?supported-features= |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/smf-select-data?plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
+2022-08-11T15:32:13+09:00 [INFO][UDM][SDM] Handle GetUeContextInSmfData
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle QuerySmfRegList
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/context-data/smf-registrations?supported-features= |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/ue-context-in-smf-data |
+2022-08-11T15:32:13+09:00 [INFO][UDM][SDM] Handle Subscribe
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle CreateSdmSubscriptions
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 201 |       127.0.0.1 | POST    | /nudr-dr/v1/subscription-data/imsi-001010000000001/context-data/sdm-subscriptions |
+2022-08-11T15:32:13+09:00 [INFO][UDM][GIN] | 201 |       127.0.0.1 | POST    | /nudm-sdm/v1/imsi-001010000000001/sdm-subscriptions |
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?preferred-locality=area1&requester-nf-type=AMF&supi=imsi-001010000000001&target-nf-type=PCF |
+2022-08-11T15:32:13+09:00 [INFO][PCF][Ampolicy] Handle AM Policy Create Request
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=PCF&target-nf-type=UDR |
+2022-08-11T15:32:13+09:00 [INFO][UDR][DRepo] Handle PolicyDataUesUeIdAmDataGet
+2022-08-11T15:32:13+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/policy-data/ues/imsi-001010000000001/am-data |
+2022-08-11T15:32:13+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:13+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?guami=%7B%22plmnId%22%3A%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D%2C%22amfId%22%3A%22cafe00%22%7D&requester-nf-type=PCF&target-nf-type=AMF |
+2022-08-11T15:32:13+09:00 [INFO][AMF][Comm] Handle AMF Status Change Subscribe Request
+2022-08-11T15:32:13+09:00 [INFO][AMF][Comm] new AMF Status Subscription[1]
+2022-08-11T15:32:13+09:00 [INFO][AMF][GIN] | 201 |       127.0.0.1 | POST    | /namf-comm/v1/subscriptions |
+2022-08-11T15:32:13+09:00 [INFO][PCF][GIN] | 201 |       127.0.0.1 | POST    | /npcf-am-policy-control/v1/policies |
+2022-08-11T15:32:13+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Send Registration Accept
+2022-08-11T15:32:13+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Send Initial Context Setup Request
+2022-08-11T15:32:13+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Handle Initial Context Setup Response
+2022-08-11T15:32:14+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Uplink NAS Transport (RAN UE NGAP ID: 1)
+2022-08-11T15:32:14+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [ContextSetup] to [ContextSetup]
+2022-08-11T15:32:14+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Handle Registration Complete
+2022-08-11T15:32:14+09:00 [INFO][LIB][FSM] Handle event[ContextSetup Success], transition from [ContextSetup] to [Registered]
+2022-08-11T15:32:14+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Uplink NAS Transport (RAN UE NGAP ID: 1)
+2022-08-11T15:32:14+09:00 [INFO][LIB][FSM] Handle event[Gmm Message], transition from [Registered] to [Registered]
+2022-08-11T15:32:14+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Handle UL NAS Transport
+2022-08-11T15:32:14+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Transport 5GSM Message to SMF
+2022-08-11T15:32:14+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] Select SMF [snssai: {Sst:1 Sd:010203}, dnn: internet2]
+2022-08-11T15:32:14+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:14+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=AMF&target-nf-type=NSSF |
+2022-08-11T15:32:14+09:00 [INFO][NSSF][NsSelect] Handle NSSelectionGet
+2022-08-11T15:32:14+09:00 [INFO][NSSF][GIN] | 200 |       127.0.0.1 | GET     | /nnssf-nsselection/v1/network-slice-information?nf-id=a345b53b-4402-4c45-b480-dc9b30eba7d1&nf-type=AMF&slice-info-request-for-pdu-session=%7B%22sNssai%22%3A%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D%2C%22roamingIndication%22%3A%22NON_ROAMING%22%7D |
+2022-08-11T15:32:14+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:14+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?dnn=internet2&preferred-locality=area1&requester-nf-type=AMF&service-names=nsmf-pdusession&snssais=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D&target-nf-type=SMF&target-plmn-list=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D |
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] Receive Create SM Context Request
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] In HandlePDUSessionSMContextCreate
+2022-08-11T15:32:14+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:14+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=SMF&target-nf-type=UDM |
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] Send NF Discovery Serving UDM Successfully
+2022-08-11T15:32:14+09:00 [INFO][SMF][CTX] Allocated UE IP address: 10.61.0.1
+2022-08-11T15:32:14+09:00 [INFO][SMF][CTX] Selected UPF: UPF1
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] UE[imsi-001010000000001] PDUSessionID[1] IP[10.61.0.1]
+2022-08-11T15:32:14+09:00 [INFO][UDM][SDM] Handle GetSmData
+2022-08-11T15:32:14+09:00 [INFO][UDM][SDM] getSmDataProcedure: SUPI[imsi-001010000000001] PLMNID[00101] DNN[internet2] SNssai[{"sst":1,"sd":"010203"}]
+2022-08-11T15:32:14+09:00 [INFO][UDR][DRepo] Handle QuerySmData
+2022-08-11T15:32:14+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/subscription-data/imsi-001010000000001/00101/provisioned-data/sm-data?single-nssai=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D |
+2022-08-11T15:32:14+09:00 [INFO][UDM][GIN] | 200 |       127.0.0.1 | GET     | /nudm-sdm/v1/imsi-001010000000001/sm-data?dnn=internet2&plmn-id=%7B%22mcc%22%3A%22001%22%2C%22mnc%22%3A%2201%22%7D&single-nssai=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D |
+2022-08-11T15:32:14+09:00 [INFO][SMF][GSM] In HandlePDUSessionEstablishmentRequest
+2022-08-11T15:32:14+09:00 [INFO][NAS][Convert] ProtocolOrContainerList:  [0xc0001c2440 0xc0001c2480]
+2022-08-11T15:32:14+09:00 [INFO][SMF][GSM] Protocol Configuration Options
+2022-08-11T15:32:14+09:00 [INFO][SMF][GSM] &{[0xc0001c2440 0xc0001c2480]}
+2022-08-11T15:32:14+09:00 [INFO][SMF][GSM] Didn't Implement container type IPAddressAllocationViaNASSignallingUL
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] PCF Selection for SMContext SUPI[imsi-001010000000001] PDUSessionID[1]
+2022-08-11T15:32:14+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:14+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?preferred-locality=area1&requester-nf-type=SMF&target-nf-type=PCF |
+2022-08-11T15:32:14+09:00 [INFO][PCF][SMpolicy] Handle CreateSmPolicy
+2022-08-11T15:32:14+09:00 [INFO][UDR][DRepo] Handle PolicyDataUesUeIdSmDataGet
+2022-08-11T15:32:14+09:00 [INFO][UDR][GIN] | 200 |       127.0.0.1 | GET     | /nudr-dr/v1/policy-data/ues/imsi-001010000000001/sm-data?dnn=internet2&snssai=%7B%22sst%22%3A1%2C%22sd%22%3A%22010203%22%7D |
+2022-08-11T15:32:14+09:00 [INFO][PCF][GIN] | 201 |       127.0.0.1 | POST    | /npcf-smpolicycontrol/v1/sm-policies |
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] SUPI[imsi-001010000000001] has no pre-config route
+2022-08-11T15:32:14+09:00 [INFO][NRF][DSCV] Handle NFDiscoveryRequest
+2022-08-11T15:32:14+09:00 [INFO][NRF][GIN] | 200 |       127.0.0.1 | GET     | /nnrf-disc/v1/nf-instances?requester-nf-type=SMF&target-nf-instance-id=a345b53b-4402-4c45-b480-dc9b30eba7d1&target-nf-type=AMF |
+2022-08-11T15:32:14+09:00 [INFO][SMF][Consumer] SendNFDiscoveryServingAMF ok
+2022-08-11T15:32:14+09:00 [INFO][SMF][GIN] | 201 |       127.0.0.1 | POST    | /nsmf-pdusession/v1/sm-contexts |
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] Sending PFCP Session Establishment Request
+2022-08-11T15:32:14+09:00 [INFO][AMF][GMM][AMF_UE_NGAP_ID:1][SUPI:imsi-001010000000001] create smContext[pduSessionID: 1] Success
+2022-08-11T15:32:14+09:00 [INFO][LIB][PFCP] Remove Request Transaction [3]
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] Received PFCP Session Establishment Accepted Response
+2022-08-11T15:32:14+09:00 [INFO][AMF][Producer] Handle N1N2 Message Transfer Request
+2022-08-11T15:32:14+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Send PDU Session Resource Setup Request
+2022-08-11T15:32:14+09:00 [INFO][AMF][GIN] | 200 |       127.0.0.1 | POST    | /namf-comm/v1/ue-contexts/imsi-001010000000001/n1-n2-messages |
+2022-08-11T15:32:14+09:00 [INFO][AMF][NGAP][192.168.0.131:58560][AMF_UE_NGAP_ID:1] Handle PDU Session Resource Setup Response
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] Receive Update SM Context Request
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] In HandlePDUSessionSMContextUpdate
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] Sending PFCP Session Modification Request to AN UPF
+2022-08-11T15:32:14+09:00 [INFO][LIB][PFCP] Remove Request Transaction [4]
+2022-08-11T15:32:14+09:00 [INFO][SMF][PduSess] Received PFCP Session Modification Accepted Response from AN UPF
+2022-08-11T15:32:14+09:00 [INFO][SMF][GIN] | 200 |       127.0.0.1 | POST    | /nsmf-pdusession/v1/sm-contexts/urn:uuid:6dac634f-855e-4c2d-ac03-7f1f5f6a7e8b/modify |
 ```
 The free5GC U-Plane1 log when executed is as follows.
 ```
-2022-04-03T20:30:28+09:00 [INFO][UPF][Util] [PFCP] Handle PFCP session establishment request
-2022-04-03T20:30:28+09:00 [INFO][UPF][Util] [PFCP] Session Establishment Response
-2022-04-03T20:30:28+09:00 [INFO][UPF][Util] [PFCP] Handle PFCP session modification request
-2022-04-03T20:30:28+09:00 [INFO][UPF][Util] [PFCP] Session Modification Response
+2022-08-11T15:32:14+09:00 [INFO][UPF][Pfcp][192.168.0.142:8805] handleSessionEstablishmentRequest
+2022-08-11T15:32:14+09:00 [INFO][UPF][Pfcp][192.168.0.142:8805][rNodeID:192.168.0.141][SEID:L(0x1),R(0x1)] New session
+2022-08-11T15:32:14+09:00 [INFO][UPF][Pfcp][192.168.0.142:8805] handleSessionModificationRequest
 ```
 Looking at the console log of the `nr-ue` command, UE1 has been assigned the IP address `10.61.0.1` from free5GC 5GC.
 ```
-[2022-04-03 20:30:28.345] [app] [info] Connection setup for PDU session[1] is successful, TUN interface[uesimtun0, 10.61.0.1] is up.
+[2022-08-11 15:32:14.224] [app] [info] Connection setup for PDU session[1] is successful, TUN interface[uesimtun0, 10.61.0.1] is up.
 ```
 Just in case, make sure it matches the IP address of the UE1's TUNnel interface. In this case, since UE1 was connected first, `uesimtun0` was created as the TUNnel interface of UE1 instead of `uesimtun1`.
 ```
 # ip addr show
 ...
-11: uesimtun0: <POINTOPOINT,PROMISC,NOTRAILERS,UP,LOWER_UP> mtu 1400 qdisc fq_codel state UNKNOWN group default qlen 500
+5: uesimtun0: <POINTOPOINT,PROMISC,NOTRAILERS,UP,LOWER_UP> mtu 1400 qdisc fq_codel state UNKNOWN group default qlen 500
     link/none 
     inet 10.61.0.1/32 scope global uesimtun0
        valid_lft forever preferred_lft forever
-    inet6 fe80::1f5a:a58b:b6ca:67eb/64 scope link stable-privacy 
+    inet6 fe80::f272:74a3:d7a9:67ef/64 scope link stable-privacy 
        valid_lft forever preferred_lft forever
 ...
 ```
@@ -977,22 +997,22 @@ Execute `tcpdump` on VM2 (U-Plane1) and check that the packet goes through `if=u
 - `ping google.com` on VM5 (UE1)
 ```
 # ping google.com -I uesimtun0 -n
-PING google.com (142.250.207.46) from 10.61.0.1 uesimtun0: 56(84) bytes of data.
-64 bytes from 142.250.207.46: icmp_seq=1 ttl=61 time=25.5 ms
-64 bytes from 142.250.207.46: icmp_seq=2 ttl=61 time=22.9 ms
-64 bytes from 142.250.207.46: icmp_seq=3 ttl=61 time=39.4 ms
+PING google.com (172.217.31.142) from 10.61.0.1 uesimtun0: 56(84) bytes of data.
+64 bytes from 172.217.31.142: icmp_seq=1 ttl=61 time=20.6 ms
+64 bytes from 172.217.31.142: icmp_seq=2 ttl=61 time=19.2 ms
+64 bytes from 172.217.31.142: icmp_seq=3 ttl=61 time=19.0 ms
 ```
 - Run `tcpdump` on VM2 (U-Plane1)
 ```
 # tcpdump -i upfgtp -n
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on upfgtp, link-type RAW (Raw IP), capture size 262144 bytes
-20:35:57.736411 IP 10.61.0.1 > 142.250.207.46: ICMP echo request, id 2, seq 1, length 64
-20:35:57.759923 IP 142.250.207.46 > 10.61.0.1: ICMP echo reply, id 2, seq 1, length 64
-20:35:58.738235 IP 10.61.0.1 > 142.250.207.46: ICMP echo request, id 2, seq 2, length 64
-20:35:58.758869 IP 142.250.207.46 > 10.61.0.1: ICMP echo reply, id 2, seq 2, length 64
-20:35:59.741186 IP 10.61.0.1 > 142.250.207.46: ICMP echo request, id 2, seq 3, length 64
-20:35:59.778635 IP 142.250.207.46 > 10.61.0.1: ICMP echo reply, id 2, seq 3, length 64
+15:36:03.089697 IP 10.61.0.1 > 172.217.31.142: ICMP echo request, id 2, seq 1, length 64
+15:36:03.107817 IP 172.217.31.142 > 10.61.0.1: ICMP echo reply, id 2, seq 1, length 64
+15:36:04.091273 IP 10.61.0.1 > 172.217.31.142: ICMP echo request, id 2, seq 2, length 64
+15:36:04.108420 IP 172.217.31.142 > 10.61.0.1: ICMP echo reply, id 2, seq 2, length 64
+15:36:05.092968 IP 10.61.0.1 > 172.217.31.142: ICMP echo request, id 2, seq 3, length 64
+15:36:05.110258 IP 172.217.31.142 > 10.61.0.1: ICMP echo reply, id 2, seq 3, length 64
 ```
 
 You could specify the IP address assigned to the TUNnel interface to run almost any applications as in the following example using `nr-binder` tool.
@@ -1009,17 +1029,17 @@ The document has moved
 ```
 - Run `tcpdump` on VM2 (U-Plane1)
 ```
-20:37:03.627295 IP 10.61.0.1.40553 > 172.217.31.142.80: Flags [S], seq 2781026083, win 65280, options [mss 1360,sackOK,TS val 3347046611 ecr 0,nop,wscale 7], length 0
-20:37:03.687277 IP 172.217.31.142.80 > 10.61.0.1.40553: Flags [S.], seq 9472001, ack 2781026084, win 65535, options [mss 1460], length 0
-20:37:03.688967 IP 10.61.0.1.40553 > 172.217.31.142.80: Flags [.], ack 1, win 65280, length 0
-20:37:03.689379 IP 10.61.0.1.40553 > 172.217.31.142.80: Flags [P.], seq 1:75, ack 1, win 65280, length 74: HTTP: GET / HTTP/1.1
-20:37:03.689584 IP 172.217.31.142.80 > 10.61.0.1.40553: Flags [.], ack 75, win 65535, length 0
-20:37:03.785718 IP 172.217.31.142.80 > 10.61.0.1.40553: Flags [P.], seq 1:529, ack 75, win 65535, length 528: HTTP: HTTP/1.1 301 Moved Permanently
-20:37:03.787594 IP 10.61.0.1.40553 > 172.217.31.142.80: Flags [.], ack 529, win 64752, length 0
-20:37:03.790428 IP 10.61.0.1.40553 > 172.217.31.142.80: Flags [F.], seq 75, ack 529, win 64752, length 0
-20:37:03.790804 IP 172.217.31.142.80 > 10.61.0.1.40553: Flags [.], ack 76, win 65535, length 0
-20:37:03.844943 IP 172.217.31.142.80 > 10.61.0.1.40553: Flags [F.], seq 529, ack 76, win 65535, length 0
-20:37:03.846956 IP 10.61.0.1.40553 > 172.217.31.142.80: Flags [.], ack 530, win 64752, length 0
+15:36:56.056456 IP 10.61.0.1.47427 > 172.217.31.142.80: Flags [S], seq 3415222222, win 65280, options [mss 1360,sackOK,TS val 3115568996 ecr 0,nop,wscale 7], length 0
+15:36:56.074653 IP 172.217.31.142.80 > 10.61.0.1.47427: Flags [S.], seq 11904001, ack 3415222223, win 65535, options [mss 1460], length 0
+15:36:56.076945 IP 10.61.0.1.47427 > 172.217.31.142.80: Flags [.], ack 1, win 65280, length 0
+15:36:56.077372 IP 10.61.0.1.47427 > 172.217.31.142.80: Flags [P.], seq 1:75, ack 1, win 65280, length 74: HTTP: GET / HTTP/1.1
+15:36:56.077567 IP 172.217.31.142.80 > 10.61.0.1.47427: Flags [.], ack 75, win 65535, length 0
+15:36:56.139017 IP 172.217.31.142.80 > 10.61.0.1.47427: Flags [P.], seq 1:529, ack 75, win 65535, length 528: HTTP: HTTP/1.1 301 Moved Permanently
+15:36:56.142108 IP 10.61.0.1.47427 > 172.217.31.142.80: Flags [.], ack 529, win 64752, length 0
+15:36:56.144943 IP 10.61.0.1.47427 > 172.217.31.142.80: Flags [F.], seq 75, ack 529, win 64752, length 0
+15:36:56.145142 IP 172.217.31.142.80 > 10.61.0.1.47427: Flags [.], ack 76, win 65535, length 0
+15:36:56.163936 IP 172.217.31.142.80 > 10.61.0.1.47427: Flags [F.], seq 529, ack 76, win 65535, length 0
+15:36:56.165784 IP 10.61.0.1.47427 > 172.217.31.142.80: Flags [.], ack 530, win 64752, length 0
 ```
 Please note that the `ping` tool does not work with `nr-binder`. Please refer to [here](https://github.com/aligungr/UERANSIM/issues/186#issuecomment-729534464) for the reason.
 
@@ -1032,6 +1052,7 @@ In investigating 5G SA, I have built a simulation environment and can now use a 
 
 <h2 id="changelog">Changelog (summary)</h2>
 
+- [2022.08.11] Updated to free5GC v3.2.1.
 - [2022.04.03] Updated to free5GC v3.1.0 and UERANSIM v3.2.6.
 - [2021.09.25] Updated to free5GC v3.0.6.
 - [2021.08.29] Updated free5GC to the version of 2021.08.29 and updated UERANSIM to v3.2.3.
