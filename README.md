@@ -670,7 +670,7 @@ Note. Install MongoDB with package manager on free5GC 5GC C-Plane machine.
 It is not necessary to install MongoDB on free5GC 5GC U-Plane machines.
 
 **Note. If you want to use the latest committed version, please run the following script to checkout all NFs and Web Console to the latest `main` branch before building.**
-```
+```bash
 #!/usr/bin/env bash
 
 NF_LIST="nrf amf smf udr pcf udm nssf ausf upf n3iwf"
@@ -714,7 +714,7 @@ Next, run free5GC 5GC C-Plane.
 - free5GC 5GC C-Plane
 
 Create the following shell script and run it.
-```
+```bash
 #!/usr/bin/env bash
 
 PID_LIST=()
