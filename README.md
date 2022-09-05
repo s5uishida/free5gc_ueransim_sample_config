@@ -7,7 +7,7 @@ This briefly describes the overall and configuration files.
 
 <h2 id="conf_list">List of Sample Configurations</h2>
 
-1. One SMF, Multiple UPFs and DNNs (without ULCL) (this article)
+1. One SMF, Multiple UPFs and DNNs (this article)
 2. [Select nearby UPF according to the connected gNodeB](https://github.com/s5uishida/free5gc_ueransim_nearby_upf_sample_config)
 3. [Select UPF based on S-NSSAI](https://github.com/s5uishida/free5gc_ueransim_snssai_upf_sample_config)
 4. [ULCL(Uplink Classifier)](https://github.com/s5uishida/free5gc_ueransim_ulcl_sample_config)
