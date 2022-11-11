@@ -665,6 +665,8 @@ Next, configure NAPT.
 
 <h2 id="build">Build free5GC and UERANSIM</h2>
 
+**Note. It is recommended to use go1.18.x according to the commit to free5gc/openapi on 2022.10.26.**
+
 Please refer to the following for building free5GC and UERANSIM respectively.
 - free5GC v3.2.1 - https://github.com/free5gc/free5gc/wiki/Installation
 - UERANSIM v3.2.6 - https://github.com/aligungr/UERANSIM/wiki/Installation
