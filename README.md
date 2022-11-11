@@ -704,7 +704,8 @@ First run the 5GC, then UERANSIM (UE & RAN implementation).
 
 <h3 id="run_up">Run free5GC 5GC U-Plane1 & U-Plane2</h3>
 
-First, run free5GC 5GC U-Planes. Please see [here](https://github.com/free5gc/free5gc/issues/170#issuecomment-773214169) for the reason.
+First, run free5GC 5GC U-Planes. Please see [here](https://github.com/free5gc/free5gc/issues/170#issuecomment-773214169) for the reason.  
+**Note. It was improved on 2022.11.08, and you don't have to worry about the startup order of C-Plane and U-Plane.**
 
 - free5GC 5GC U-Plane1
 ```
