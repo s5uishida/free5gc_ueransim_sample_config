@@ -671,15 +671,9 @@ Please refer to the following for building free5GC and UERANSIM respectively.
 - free5GC v3.2.1 - https://github.com/free5gc/free5gc/wiki/Installation
 - UERANSIM v3.2.6 - https://github.com/aligungr/UERANSIM/wiki/Installation
 
-Note. Install MongoDB with package manager on free5GC 5GC C-Plane machine.
-[MongoDB Compass](https://www.mongodb.com/products/compass) is a convenient tool to look at the MongoDB database.
-```
-# apt update
-# apt install mongodb
-# systemctl start mongodb
-# systemctl enable mongodb
-```
+Install MongoDB on free5GC 5GC C-Plane machine.
 It is not necessary to install MongoDB on free5GC 5GC U-Plane machines.
+[MongoDB Compass](https://www.mongodb.com/products/compass) is a convenient tool to look at the MongoDB database.
 
 **Note. If you want to use the latest committed version, please run the following script to checkout all NFs and Web Console to the latest `main` branch before building.**
 ```bash
