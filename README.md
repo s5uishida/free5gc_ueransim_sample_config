@@ -15,6 +15,12 @@ This briefly describes the overall and configuration files.
 
 ---
 
+<h2 id="misc">Miscellaneous Notes</h2>
+
+- [Install MongoDB 6.0 and free5GC WebUI](https://github.com/s5uishida/free5gc_install_mongodb6_webui)
+
+---
+
 <h2 id="toc">Table of Contents</h2>
 
 - [Overview of free5GC 5GC Simulation Mobile Network](#overview)
