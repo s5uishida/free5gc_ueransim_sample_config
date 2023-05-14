@@ -18,6 +18,7 @@ This briefly describes the overall and configuration files.
 <h2 id="misc">Miscellaneous Notes</h2>
 
 - [Install MongoDB 6.0 and free5GC WebUI](https://github.com/s5uishida/free5gc_install_mongodb6_webui)
+- [A Note for 5G SUCI Profile A/B Scheme](https://github.com/s5uishida/note_5g_suci_profile_ab)
 
 ---
 
