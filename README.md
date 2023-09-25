@@ -5,7 +5,9 @@ This briefly describes the overall and configuration files.
 
 ---
 
-<h2 id="conf_list">List of Sample Configurations</h2>
+<a id="conf_list"></a>
+
+## List of Sample Configurations
 
 1. [One SMF, one UPF and one DNN](https://github.com/s5uishida/free5gc_srsran_sample_config)
 2. One SMF, Multiple UPFs and DNNs (this article)
@@ -17,7 +19,9 @@ This briefly describes the overall and configuration files.
 
 ---
 
-<h2 id="misc">Miscellaneous Notes</h2>
+<a id="misc"></a>
+
+## Miscellaneous Notes
 
 - [Install MongoDB 6.0 and free5GC WebUI](https://github.com/s5uishida/free5gc_install_mongodb6_webui)
 - [Install MongoDB 4.4.18 on Ubuntu 20.04 for Raspberry Pi 4B](https://github.com/s5uishida/install_mongodb_on_ubuntu_for_rp4b)
@@ -26,7 +30,9 @@ This briefly describes the overall and configuration files.
 
 ---
 
-<h2 id="toc">Table of Contents</h2>
+<a id="toc"></a>
+
+## Table of Contents
 
 - [Overview of free5GC 5GC Simulation Mobile Network](#overview)
 - [Changes in configuration files of free5GC 5GC and UERANSIM UE / RAN](#changes)
@@ -55,7 +61,9 @@ This briefly describes the overall and configuration files.
 - [Changelog (summary)](#changelog)
 
 ---
-<h2 id="overview">Overview of free5GC 5GC Simulation Mobile Network</h2>
+<a id="overview"></a>
+
+## Overview of free5GC 5GC Simulation Mobile Network
 
 I created a 5GC mobile network (Internet reachable) for simulation with the aim of creating an environment in which packets can be sent end-to-end with different DNs for each DNN.
 
@@ -107,13 +115,17 @@ free5GC 5GC U-Plane worked fine on Raspberry Pi 4 Model B. I used [Ubuntu 20.04 
 
 In addition, I have not confirmed the communication performance.
 
-<h2 id="changes">Changes in configuration files of free5GC 5GC and UERANSIM UE / RAN</h2>
+<a id="changes"></a>
+
+## Changes in configuration files of free5GC 5GC and UERANSIM UE / RAN
 
 Please refer to the following for building free5GC and UERANSIM respectively.
 - free5GC v3.2.1 - https://github.com/free5gc/free5gc/wiki/Installation
 - UERANSIM v3.2.6 - https://github.com/aligungr/UERANSIM/wiki/Installation
 
-<h3 id="changes_cp">Changes in configuration files of free5GC 5GC C-Plane</h3>
+<a id="changes_cp"></a>
+
+### Changes in configuration files of free5GC 5GC C-Plane
 
 The combination of DNN and S-NSSAI parameters can be used in the logic that selects UPF as the connection destination by PFCP.
 
@@ -315,7 +327,9 @@ For the sake of simplicity, This time, only DNN will be changed. S-NSSAI of all 
  # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
 ```
 
-<h3 id="changes_up1">Changes in configuration files of free5GC 5GC U-Plane1</h3>
+<a id="changes_up1"></a>
+
+### Changes in configuration files of free5GC 5GC U-Plane1
 
 - `free5gc/config/upfcfg.yaml`
 ```diff
@@ -355,7 +369,9 @@ For the sake of simplicity, This time, only DNN will be changed. S-NSSAI of all 
    enable: true # true or false
 ```
 
-<h3 id="changes_up2">Changes in configuration files of free5GC 5GC U-Plane2</h3>
+<a id="changes_up2"></a>
+
+### Changes in configuration files of free5GC 5GC U-Plane2
 
 - `free5gc/config/upfcfg.yaml`
 ```diff
@@ -393,9 +409,13 @@ For the sake of simplicity, This time, only DNN will be changed. S-NSSAI of all 
  logger: # log output setting
 ```
 
-<h3 id="changes_ueransim">Changes in configuration files of UERANSIM UE / RAN</h3>
+<a id="changes_ueransim"></a>
 
-<h4 id="changes_ran">Changes in configuration files of RAN</h4>
+### Changes in configuration files of UERANSIM UE / RAN
+
+<a id="changes_ran"></a>
+
+#### Changes in configuration files of RAN
 
 - `UERANSIM/config/free5gc-gnb.yaml`
 ```diff
@@ -427,7 +447,9 @@ For the sake of simplicity, This time, only DNN will be changed. S-NSSAI of all 
  # List of supported S-NSSAIs by this gNB
 ```
 
-<h4 id="changes_ue0">Changes in configuration files of UE0 (IMSI-001010000000000)</h4>
+<a id="changes_ue0"></a>
+
+#### Changes in configuration files of UE0 (IMSI-001010000000000)
 
 First, copy `free5gc-ue0.yaml` from `free5gc-ue.yaml`.
 ```
@@ -463,7 +485,9 @@ Next, edit `free5gc-ue0.yaml`.
  uacAic:
 ```
 
-<h4 id="changes_ue1">Changes in configuration files of UE1 (IMSI-001010000000001)</h4>
+<a id="changes_ue1"></a>
+
+#### Changes in configuration files of UE1 (IMSI-001010000000001)
 
 First, copy `free5gc-ue1.yaml` from `free5gc-ue.yaml`.
 ```
@@ -508,7 +532,9 @@ Next, edit `free5gc-ue1.yaml`.
        sd: 0x010203
 ```
 
-<h4 id="changes_ue2">Changes in configuration files of UE2 (IMSI-001010000000002)</h4>
+<a id="changes_ue2"></a>
+
+#### Changes in configuration files of UE2 (IMSI-001010000000002)
 
 First, copy `free5gc-ue2.yaml` from `free5gc-ue.yaml`.
 ```
@@ -553,7 +579,9 @@ Next, edit `free5gc-ue2.yaml`.
        sd: 0x010203
 ```
 
-<h4 id="changes_ue3">Changes in configuration files of UE3 (IMSI-001010000000003)</h4>
+<a id="changes_ue3"></a>
+
+#### Changes in configuration files of UE3 (IMSI-001010000000003)
 
 First, copy `free5gc-ue3.yaml` from `free5gc-ue.yaml`.
 ```
@@ -598,7 +626,9 @@ Next, edit `free5gc-ue3.yaml`.
        sd: 0x010203
 ```
 
-<h4 id="changes_ue4">Changes in configuration files of UE4 (IMSI-001010000000004)</h4>
+<a id="changes_ue4"></a>
+
+#### Changes in configuration files of UE4 (IMSI-001010000000004)
 
 First, copy `free5gc-ue4.yaml` from `free5gc-ue.yaml`.
 ```
@@ -643,9 +673,13 @@ Next, edit `free5gc-ue4.yaml`.
        sd: 0x010203
 ```
 
-<h2 id="network_settings">Network settings of free5GC 5GC and UERANSIM UE / RAN</h2>
+<a id="network_settings"></a>
 
-<h3 id="network_settings_up1">Network settings of free5GC 5GC U-Plane1</h3>
+## Network settings of free5GC 5GC and UERANSIM UE / RAN
+
+<a id="network_settings_up1"></a>
+
+### Network settings of free5GC 5GC U-Plane1
 
 First, uncomment the next line in the `/etc/sysctl.conf` file and reflect it in the OS.
 ```
@@ -660,7 +694,9 @@ Next, configure NAPT.
 # iptables -t nat -A POSTROUTING -s 10.61.0.0/16 ! -o upfgtp -j MASQUERADE
 ```
 
-<h3 id="network_settings_up2">Network settings of free5GC 5GC U-Plane2</h3>
+<a id="network_settings_up2"></a>
+
+### Network settings of free5GC 5GC U-Plane2
 
 First, uncomment the next line in the `/etc/sysctl.conf` file and reflect it in the OS.
 ```
@@ -674,7 +710,9 @@ Next, configure NAPT.
 # iptables -t nat -A POSTROUTING -s 10.62.0.0/16 ! -o upfgtp -j MASQUERADE
 ```
 
-<h2 id="build">Build free5GC and UERANSIM</h2>
+<a id="build"></a>
+
+## Build free5GC and UERANSIM
 
 **Note. It is recommended to use go1.18.x according to the commit to free5gc/openapi on 2022.10.26.**
 
@@ -705,11 +743,15 @@ cd ..
 git checkout main
 ```
 
-<h2 id="run">Run free5GC 5GC and UERANSIM UE / RAN</h2>
+<a id="run"></a>
+
+## Run free5GC 5GC and UERANSIM UE / RAN
 
 First run the 5GC, then UERANSIM (UE & RAN implementation).
 
-<h3 id="run_up">Run free5GC 5GC U-Plane1 & U-Plane2</h3>
+<a id="run_up"></a>
+
+### Run free5GC 5GC U-Plane1 & U-Plane2
 
 First, run free5GC 5GC U-Planes. Please see [here](https://github.com/free5gc/free5gc/issues/170#issuecomment-773214169) for the reason.  
 **Note. It was improved on 2022.11.08, and you don't have to worry about the startup order of C-Plane and U-Plane.**
@@ -725,7 +767,9 @@ First, run free5GC 5GC U-Planes. Please see [here](https://github.com/free5gc/fr
 # bin/upf
 ```
 
-<h3 id="run_cp">Run free5GC 5GC C-Plane</h3>
+<a id="run_cp"></a>
+
+### Run free5GC 5GC C-Plane
 
 Next, run free5GC 5GC C-Plane.
 
@@ -757,7 +801,9 @@ trap terminate SIGINT
 wait ${PID_LIST}
 ```
 
-<h3 id="run_ueran">Run UERANSIM</h3>
+<a id="run_ueran"></a>
+
+### Run UERANSIM
 
 Here, the case of UE1 (IMSI-001010000000001 set as **DNN=internet2**) & RAN is described.
 First, do an NG Setup between gNodeB and 5GC, then register the UE with 5GC and establish a PDU session.
@@ -766,7 +812,9 @@ Please refer to the following for usage of UERANSIM.
 
 https://github.com/aligungr/UERANSIM/wiki/Usage
 
-<h4 id="start_gnb">Start gNB</h4>
+<a id="start_gnb"></a>
+
+#### Start gNB
 
 Start gNB as follows.
 ```
@@ -787,7 +835,9 @@ The free5GC C-Plane log when executed is as follows.
 2022-08-11T15:31:29+09:00 [INFO][AMF][NGAP][192.168.0.131:58560] Send NG-Setup response
 ```
 
-<h4 id="start_ue">Start UE (UE1)</h4>
+<a id="start_ue"></a>
+
+#### Start UE (UE1)
 
 Start UE (UE1) as follows. This will register the UE with 5GC and establish a PDU session.
 ```
@@ -1001,7 +1051,9 @@ Just in case, make sure it matches the IP address of the UE1's TUNnel interface.
 ...
 ```
 
-<h2 id="ping">Ping google.com</h2>
+<a id="ping"></a>
+
+## Ping google.com
 
 Specify the UE1's TUNnel interface and try ping.
 
@@ -1009,7 +1061,9 @@ Please refer to the following for usage of TUNnel interface.
 
 https://github.com/aligungr/UERANSIM/wiki/Usage
 
-<h3 id="ping_1">Case for going through DN 10.61.0.0/16</h3>
+<a id="ping_1"></a>
+
+### Case for going through DN 10.61.0.0/16
 
 Execute `tcpdump` on VM2 (U-Plane1) and check that the packet goes through `if=upfgtp`.
 - `ping google.com` on VM5 (UE1)
@@ -1068,7 +1122,9 @@ You could now create the end-to-end TUN interfaces on the DN and send any packet
 ---
 In investigating 5G SA, I have built a simulation environment and can now use a very useful system for investigating 5GC and MEC of 5G SA mobile network. I would like to thank the excellent developers and all the contributors of free5GC and UERANSIM.
 
-<h2 id="changelog">Changelog (summary)</h2>
+<a id="changelog"></a>
+
+## Changelog (summary)
 
 - [2022.08.11] Updated to free5GC v3.2.1.
 - [2022.04.03] Updated to free5GC v3.1.0 and UERANSIM v3.2.6.
