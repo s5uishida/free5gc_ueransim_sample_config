@@ -1051,7 +1051,7 @@ listening on upfgtp, link-type RAW (Raw IP), capture size 262144 bytes
 
 You could specify the IP address assigned to the TUNnel interface to run almost any applications as in the following example using `nr-binder` tool.
 
-- Run `curl google.com` on VM5 (UE1)
+- `curl google.com` on VM5 (UE1)
 ```
 # sh nr-binder 10.61.0.1 curl google.com
 <HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
